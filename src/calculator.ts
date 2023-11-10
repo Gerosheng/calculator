@@ -1,8 +1,8 @@
 class Calculator {
     previousOperandTextElement: HTMLElement;
     currentOperandTextElement: HTMLElement;
-    currentOperand: string;
-    previousOperand: string;
+    currentOperand: string ='';
+    previousOperand: string = '';
     operation: string | undefined;
 
     constructor(previousOperandTextElement: HTMLElement, currentOperandTextElement: HTMLElement){
@@ -74,7 +74,7 @@ class Calculator {
         const stringNumber = number.toString();
         const integerDigits = parseFloat(stringNumber.split('.')[0]);
         const decimalDigits = stringNumber.split('.')[1];
-        const floatNumber = parseFloat(number);
+
         let integerDisplay;
         if (isNaN(integerDigits)){
             integerDisplay = '';
@@ -110,33 +110,33 @@ const currentOperandTextElement = document.querySelector('[data-current-operand]
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
 
-numberButtons.forEach((button: HTMLElement) =>{
-    button.addEventListener('click', () => {
-        calculator.appendNumber(button.innerText);
+numberButtons.forEach((button: Element) => {
+    button.addEventListener('click', (event: Event) => {
+        const clickedButton = event.target as HTMLElement;
+        calculator.appendNumber(clickedButton.innerText);
         calculator.updateDisplay();
+    });
+});
 
-    })
-})
-
-operationButtons.forEach((button: HTMLElement) =>{
-    button.addEventListener('click', () => {
-        calculator.chooseOperation(button.innerText);
+operationButtons.forEach((button: Element) => {
+    button.addEventListener('click', (event: Event) => {
+        const clickedButton = event.target as HTMLElement;
+        calculator.chooseOperation(clickedButton.innerText);
         calculator.updateDisplay();
+    });
+});
 
-    })
-})
-
-equalsButton.addEventListener('click', button => {
+equalsButton!.addEventListener('click', () => {
     calculator.compute();
     calculator.updateDisplay();
 })
 
-allClearButton.addEventListener('click', button => {
+allClearButton!.addEventListener('click', () => {
     calculator.clear();
     calculator.updateDisplay();
 })
 
-deleteButton.addEventListener('click', button => {
+deleteButton!.addEventListener('click', () => {
     calculator.delete();
     calculator.updateDisplay();
 })
